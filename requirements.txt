@@ -1,1 +1,4 @@
 parliament-functions==0.1.0
+neomodel==5.3.0
+neo4j==5.19.0
+cloudevents

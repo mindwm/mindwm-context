@@ -1,5 +1,21 @@
 specVersion: 0.36.0
 name: mindwm-context
 runtime: python
-created: 2024-07-15T10:08:12.013073488Z
 registry: ghcr.io/mindwm/mindwm-context
+namespace: context-team-a
+created: 2024-07-15T10:08:12.013073488Z
+build:
+  builder: pack
+run:
+  envs:
+  - name: MINDWM_PREFIX
+    value: mindwm
+  - name: NEO4J_URL
+    value: team-a-neo4j-neo4j.context-team-a:7687
+  - name: NEO4J_USERNAME
+    value: neo4j
+  - name: NEO4J_PASSWORD
+    value: password
+deploy:
+  namespace: context-team-a
+  image: ghcr.io/mindwm/mindwm-context/mindwm-context@sha256:9e2a659f6e9a83625f412ca401b10eb7fba6febdd633c16bc53ae551d8900397
