@@ -18,4 +18,4 @@ run:
     value: password
 deploy:
   namespace: context-team-a
-  image: ghcr.io/mindwm/mindwm-context/mindwm-context@sha256:9e2a659f6e9a83625f412ca401b10eb7fba6febdd633c16bc53ae551d8900397
+  image: ghcr.io/mindwm/mindwm-context/mindwm-context@sha256:b874e8d4ad77d4b32f7e90f8939d24643d38153d997ecdeed0f609ea67556955

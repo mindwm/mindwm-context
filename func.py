@@ -97,6 +97,10 @@ def  main(context: Context):
             print('delete', file=sys.stderr)
             del tmux_pane.contextParameters[key]
             tmux_pane.save()
-
+    elif "# show" in user_input:
+        results, meta = db.cypher_query(f"MATCH (n:IoDocument) WHERE ID(n) = {id}  RETURN n;")
+        iodoc = IoDocument.inflate(results[meta.index('n')][0])
+        tmux_pane = iodoc.tmux_pane.get()
+        print(tmux_pane.contextParameters, file=sys.stderr)
 
     return "", 200
