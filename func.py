@@ -69,21 +69,20 @@ def  main(context: Context):
 
     # Add your business logic here
     event = from_http(context.request.headers, context.request.data)
+
     data = event.data
     payload = data['payload']
     id = payload['id']
     after = payload['after']
     properties = after['properties']
     user_input = properties['user_input']
-
     mindwm_prefix = os.getenv("MINDWM_PREFIX", "")
-
-    pattern = fr"#\s*{re.escape(mindwm_prefix)}\s+(?P<key>\w+)\s*=\s*(?P<value>\w*)"
+    pattern = fr"#\s*{re.escape(mindwm_prefix)}\s+(\w+)\s*=\s*(.*)"
     match = re.match(pattern, user_input)
     if match:
-        key = match.group('key')
-        value = match.group('value')
-        print(f'{key} - {value}', file=sys.stderr)
+        key = match.group(1)
+        value = match.group(2)
+        print(f'{key}: {value}', file=sys.stderr)
 
         results, meta = db.cypher_query(f"MATCH (n:IoDocument) WHERE ID(n) = {id}  RETURN n;")
         iodoc = IoDocument.inflate(results[meta.index('n')][0])
@@ -101,6 +100,8 @@ def  main(context: Context):
         results, meta = db.cypher_query(f"MATCH (n:IoDocument) WHERE ID(n) = {id}  RETURN n;")
         iodoc = IoDocument.inflate(results[meta.index('n')][0])
         tmux_pane = iodoc.tmux_pane.get()
-        print(tmux_pane.contextParameters, file=sys.stderr)
+        for key, value in tmux_pane.contextParameters.items():
+            print(f"{key} = {value}", file=sys.stderr)
+        #print(tmux_pane.contextParameters, file=sys.stderr)
 
     return "", 200
